@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import style from './reset.module.css'
-import {Toaster} from 'react-hot-toast'
+import {Toaster, toast} from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { verifyemail} from '../../helper/validate'
+import axios from 'axios'
 
 
 const Email = () => {
@@ -15,7 +16,16 @@ const Email = () => {
         validateOnBlur: false,
         validateOnChange:false,
         onSubmit: async values => {
-            console.log(values)
+            try{
+                await axios.post("/api/users/forgotpassword",{email:values.email}).then((response) => {if(response.status === 200 ){
+                    toast.success("Token has been successfully sent")
+                    }
+                else {
+                    toast.error("failed")
+                }})
+            }catch (e){
+                toast.error("email address not found");
+            }
         }
     })
   return (

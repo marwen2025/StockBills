@@ -1,12 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import style from './reset.module.css'
-import {Toaster} from 'react-hot-toast'
+import {Toaster, toast} from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { verifypasswordreset} from '../../helper/validate'
+import axios from 'axios'
 
 
 const ResetPassword = () => {
+    const { token } = useParams();
+
     const formik = useFormik({
         initialValues:{
             password1:'',
@@ -16,7 +19,18 @@ const ResetPassword = () => {
         validateOnBlur: false,
         validateOnChange:false,
         onSubmit: async values => {
-            console.log(values)
+            try{
+                console.log(token);
+                await axios.put(`/api/users/resetpassword/${token}`,{password:values.password}).then((response) => {if(response.status === 200 ){
+                    toast.success("password has been changed successfully")
+
+                    }
+                else {
+                    toast.error("failed")
+                }})
+            }catch (e){
+                toast.error("Token has expired");
+            }
         }
     })
   return (
@@ -50,7 +64,7 @@ const ResetPassword = () => {
                         
                     </form>
                     <div className="textbox text-center py-4">
-                            <span className='text-gray-500'>Not a Member ? <Link className='text-red-500' to="/register">Register Now </Link></span>
+                            <span className='text-gray-500'>Password is Reseted ? <Link className='text-red-500' to="/login">Login </Link></span>
                         </div>
                 </div>
             </div>

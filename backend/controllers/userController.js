@@ -231,7 +231,7 @@ const forgotpassword =asynchandler(async (req,res)=>{
         expiresAt:  Date.now()+1800000 ,// noss se3a
     }).save();
     // Reset URL
-    const resetUrl = process.env.FRONTEND_URL+'/resetpassword/'+resetToken
+    const resetUrl = process.env.FRONTEND_URL+'resetpassword/'+resetToken
 
     //send reset Email
 const message='<h2> Hello! '+user.name+' </h2> <p> Please use this url to reset your password </p><p>btw it is valid for only 30 mn.</p> <a href='+resetUrl+' clicktracking=off>'+resetUrl+'</a> <p> Regards ...</p><p>StockBillsApp</p>';

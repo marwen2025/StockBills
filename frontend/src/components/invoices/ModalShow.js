@@ -1,5 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import img from '../../assets/logo.png'
 
 
 const Modal = ({ isVisible, onClose, invoiceId }) => {
@@ -7,6 +10,46 @@ const [invoice, setInvoice] = useState();
 const [clientN, setClientN] = useState();
 const [userN, setUserN] = useState();
 const [lineList, setLineList] = useState();
+const [date,setDate]=useState();
+const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFont("sans-serif");
+    doc.setFontSize(24);
+    doc.text("Invoice",90,10)
+    doc.setFontSize(13);
+    doc.text("Order Date: "+invoice.createdAt.substring(0, 10), 10, 25);
+    doc.text("Invoice ID: "+invoice._id, 120, 25);
+    doc.text("Client: "+clientN, 10, 32);
+    doc.text("User: "+userN, 10, 39);
+    doc.addImage(img,0,0,20,20)
+    doc.autoTable({
+        startY: 50,
+      head: [[
+        '#',
+        'Product Name',
+        'Quantity',
+        'Unite Price',
+        'Subtotal',
+      ]],
+      body: lineList.map((line, index) => ([
+        index + 1,
+        line.name,
+        line.quantity,
+        line.unitPrice,
+        line.quantity * line.unitPrice,
+      ])),
+      foot: [[
+        '',
+        '',
+        '',
+        { content: 'Total', colSpan: 1 },
+        { content: `${invoice ? invoice.total : 0} TND`, colSpan: 1 },
+      ]],
+    });
+  
+    doc.save(`Invoice_Id_${invoice._id}.pdf`);
+  };
+  
 
 useEffect(() => {
   let isMounted = true;
@@ -18,6 +61,7 @@ useEffect(() => {
         setClientN(`${data.clientId.name} ${data.clientId.firstname}`);
         setUserN(data.userId.name);
         setLineList(data.lineList);
+        setDate(data.createdAt.substring(0,10))
       }
     } catch (error) {
       console.error(error);
@@ -41,10 +85,11 @@ useEffect(() => {
                         <span className="sr-only">Close modal</span>
                     </button>
                     <div className="px-6 py-6 lg:px-8 text-center flex-col">
-                        <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Invoice</h3>
+                        <h3 className="mb-2 text-xl font-medium text-gray-900 dark:text-white">Invoice</h3>
+                        <button className=" mb-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={downloadPDF}>Download as PDF</button>
                         <div class="flex justify-between p-4 bg-white">
                             <div>
-                                <h6 class="font-bold">Order Date : <span class="text-sm font-medium"> {invoice.createdAt}
+                                <h6 class="font-bold">Order Date : <span class="text-sm font-medium"> {date}
                                 </span></h6>
                                 <h6 class="font-bold">Invoice ID : <span class="text-sm font-medium"> {invoice._id}</span></h6>
                             </div>
