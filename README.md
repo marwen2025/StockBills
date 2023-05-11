@@ -13,19 +13,31 @@ Client Management: Users can create and manage client accounts, including contac
 To install and run the app locally, follow these steps:
 
 Clone the repository to your local machine.
+
 Install Node.js and npm.
+
 Install the dependencies by running npm install in the root directory.
+
 Start the server by running npm run backenc.
+
 Start the client by running npm start.
+
 Open your browser and go to http://localhost:3000 to access the app.
 
 #Technologies Used
 
 MongoDB: A popular NoSQL database used for storing and managing data in web applications.
+
 Express: A web application framework used for building APIs and handling HTTP requests/responses.
+
 React: A popular front-end JavaScript library used for building user interfaces.
+
 Node.js: A JavaScript runtime built on Chrome's V8 JavaScript engine.
+
 Mongoose: A library for interacting with MongoDB databases.
+
 Axios: A library for making HTTP requests.
-License
+
+# License
+
 This app is licensed under the MIT license.
