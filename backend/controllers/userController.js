@@ -266,10 +266,13 @@ const resetPassword=asynchandler(async (req,res) =>{
 const user = await User.findOne({_id: userToken.userId})
 user.password = password;
 await user.save();
+
 res.status(200).json({
     message: "Password changed successfully"
 });
+await Token.deleteOne()
 })
+
 
 module.exports = {
     registerUser,
