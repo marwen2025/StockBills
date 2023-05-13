@@ -6,6 +6,7 @@ import logo from "../assets/logo.png"
 import image1 from "../assets/3266884.png"
 import image2 from "../assets/5454545454.png"
 import { Link } from 'react-router-dom'
+import Footer from './footer/footer' 
 const Home = () => {
   const navigate=useNavigate();
   const[user,setUser]=useState("Login")
@@ -132,7 +133,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </section>    
+    </section>
+    <Footer/>  
 
   </>
   )

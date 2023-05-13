@@ -79,7 +79,7 @@ const ModalAdd = ({ isVisible, onClose }) => {
                         <span className="sr-only">Close modal</span>
                     </button>
                     <div className="px-6 py-6 lg:px-8">
-                        <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Make Invoice</h3>
+                        <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Create Invoice</h3>
                         <form onSubmit={handleSubmit} className='min-w-[500PX] '>
                             <div className='mb-'>
 
@@ -88,7 +88,7 @@ const ModalAdd = ({ isVisible, onClose }) => {
                                     <option value="">Select a client</option>
                                     {clients.map((client) => (
                                         <option key={client._id} value={client._id}>
-                                            {client.matricule}
+                                            {client.name} {client.firstname}  {client._id}
                                         </option>
                                     ))}
                                 </select>
@@ -105,7 +105,7 @@ const ModalAdd = ({ isVisible, onClose }) => {
                                             <option value="">Select a product</option>
                                             {products.map((product) => (
                                                 <option key={product._id} value={product._id}>
-                                                    {product.name}
+                                                    {product.name}  
                                                 </option>
                                             ))}
                                         </select>

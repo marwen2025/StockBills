@@ -30,13 +30,17 @@ const Register = () => {
         validateOnBlur: false,
         validateOnChange:false,
         onSubmit: async values => {
+            try{
             await axios.post("/api/users/register",{email:values.email,password:values.password,name:values.name}).then((response) => {if(response.status === 201 ){
-                navigate("/profile")
+                navigate("/Dashboard")
             }
         else {
             toast.error("failed")
         }})
+        }catch(e) {
+            toast.error("this Email exists try to signIn") 
         }
+    }
     })
     return (
         <div className='container mx-auto'>

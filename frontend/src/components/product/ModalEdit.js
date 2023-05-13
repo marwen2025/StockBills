@@ -59,7 +59,7 @@ const ModalEdit = ({isVisible,onClose,productId}) => {
                 <span className="sr-only">Close modal</span>
             </button>
             <div className="px-6 py-6 lg:px-8">
-                <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add New Product</h3>
+                <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Edit Product</h3>
                 <form onSubmit={onSubmitHandler} className='min-w-[500PX] '>
     <div className="grid  gap-6 mb-6 md:grid-cols-2">
         <div>
@@ -84,7 +84,7 @@ const ModalEdit = ({isVisible,onClose,productId}) => {
     
     
     
-    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
+    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>
 </form>
             </div>
         </div>

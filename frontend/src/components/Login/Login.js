@@ -26,14 +26,17 @@ const Login = () => {
         validateOnBlur: false,
         validateOnChange:false,
         onSubmit: async values => {
+            try {
             await axios.post("/api/users/login",{email:values.email,password:values.password}).then((response) => {if(response.status === 200 ){
                 navigate("/dashboard")
             }
         else {
             toast.error("failed")
         }})
+        }catch(e) {
+            toast.error("Wrong Credentials")
         }
-    })
+}})
 
     return (
         <div className='container mx-auto'>
