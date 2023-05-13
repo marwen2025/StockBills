@@ -38,6 +38,8 @@ Mongoose: A library for interacting with MongoDB databases.
 
 Axios: A library for making HTTP requests.
 
+TailWindCss : A powerful and flexible CSS framework that simplifies the process of styling web applications, allowing developers to focus on creating engaging and effective user interfaces.
+
 # License
 
 This app is licensed under the MIT license.
