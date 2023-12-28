@@ -33,7 +33,7 @@ const Invoices = () => {
 
     const onDelete=(_id)=>{
         
-        if(window.confirm("are you sure to delete this client")){
+        if(window.confirm("are you sure to delete this invoice?")){
          axios.delete(`/api/user/invoices/deleteInvoice/${_id}`).then(res=>{
             console.log(_id+"has been deleted")
             if (res.status === 200){toast.success("removed successfully")
