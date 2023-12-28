@@ -1,0 +1,15 @@
+version: '3'
+services:
+  backend:
+    image: stockbillsbackend:latest
+    ports:
+      - "5000:5000"
+
+  frontend:
+    image: stockbillsfrontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+  
+  
