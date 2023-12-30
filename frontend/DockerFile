@@ -13,7 +13,7 @@ RUN npm install
 # Copiez le reste de l'application
 COPY . .
 
-# Exposez le port sur lequel l'application React s'exécute par défaut
+# Exposez le port sur lequel l'application s'exécute par défaut
 EXPOSE 3000
 
 # Commande pour démarrer l'application
