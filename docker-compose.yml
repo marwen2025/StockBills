@@ -1,15 +1,14 @@
 version: '3'
 services:
+ 
   backend:
-    image: stockbillsbackend:latest
+    image: backend:latest
     ports:
       - "5000:5000"
-
+  
   frontend:
-    image: stockbillsfrontend:latest
+    image: frontend:latest
     ports:
-      - "3000:3000"
+      - "3000:80"  # Assuming the Nginx server in the frontend image listens on port 80
     depends_on:
       - backend
-  
-  

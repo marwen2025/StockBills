@@ -1,20 +1,33 @@
-# Utilisez une image Node.js Alpine légère comme image de base
-FROM node:alpine
+# Use a single stage for building the React app
+FROM node:17-alpine as builder 
 
-# Définissez le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copiez le package.json et le package-lock.json pour installer les dépendances
 COPY package*.json ./
 
-# Installez les dépendances
 RUN npm install
 
-# Copiez le reste de l'application
 COPY . .
 
-# Exposez le port sur lequel l'application s'exécute par défaut
-EXPOSE 3000
+# Build the React app
+RUN npm run build
 
-# Commande pour démarrer l'application
-CMD ["npm", "start"]
+# Stage 2: Use Nginx to serve the static files
+FROM nginx:1.19.0
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+# Copy the build artifacts from the builder stage
+COPY --from=builder /app/build .
+
+# Copy the custom Nginx configuration file to the container
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
+# The CMD or ENTRYPOINT instruction is not necessary in this context
