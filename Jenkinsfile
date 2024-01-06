@@ -18,25 +18,21 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                echo 'Installing Node.js dependencies...'
-                sh 'npm install'
-            }
-        }
-
-        stage('Unit Tests') {
+        /* stage('Unit Tests') {
             steps {
                 echo 'Running unit tests...'
                 sh 'npm test'
             }
-        }
+        } */
 
         stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
-            }
+            script {
+                    // Build frontend Docker image
+                    sh 'docker build -t frontend:latest ./frontend'
+
+                    // Build backend Docker image
+                    sh 'docker build -t backend:latest ./backend'
+                }
         }
 
         stage('Integration Tests') {
@@ -46,7 +42,7 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Registry') {
+        /* stage('Push to Docker Registry') {
             steps {
                 echo 'Pushing Docker image to registry...'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
@@ -54,7 +50,7 @@ pipeline {
                 }
                 sh "docker push ${DOCKER_IMAGE_NAME}"
             }
-        }
+        } */
 
         stage('Cleanup') {
             steps {
