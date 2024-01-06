@@ -25,35 +25,49 @@ pipeline {
             }
         } */
 
-        stage('Build Docker Image') {
+        stages {
+        stage('Build Frontend Docker Image') {
             steps {
                 script {
                     // Build frontend Docker image
                     sh 'docker build -t frontend:latest ./frontend'
+                }
+            }
+        }
 
+        stage('Build Backend Docker Image') {
+            steps {
+                script {
                     // Build backend Docker image
                     sh 'docker build -t backend:latest ./backend'
                 }
             }
         }
+        
 
-        stage('Integration Tests') {
+        /* stage('Integration Tests') {
             steps {
                 echo 'Running integration tests...'
                 // Add commands for integration tests
             }
-        }
-
-        /* stage('Push to Docker Registry') {
-            steps {
-                echo 'Pushing Docker image to registry...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
-                }
-                sh "docker push ${DOCKER_IMAGE_NAME}"
-            }
         } */
 
+        stage('Push to Docker Registry') {
+            steps {
+                echo 'Pushing Docker images to registry...'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerCreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
+
+                        // Push frontend Docker image
+                        sh "docker push frontend:latest"
+
+                        // Push backend Docker image
+                        sh "docker push backend:latest"
+                    }
+                }
+            }
+        }
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up...'
