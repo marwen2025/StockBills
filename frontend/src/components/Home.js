@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+
 import image from "../assets/3992747.png"
 import logo from "../assets/logo.png"
 import image1 from "../assets/3266884.png"
@@ -8,7 +8,7 @@ import image2 from "../assets/5454545454.png"
 import { Link } from 'react-router-dom'
 import Footer from './footer/footer' 
 const Home = () => {
-  const navigate=useNavigate();
+  
   const[user,setUser]=useState("Login")
   useEffect(() => {
     axios.get("/api/users/loggedin").then((response) => {
