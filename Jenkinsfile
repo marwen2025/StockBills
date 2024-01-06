@@ -36,9 +36,6 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
-
-        }
 
         stage('Integration Tests') {
             steps {
@@ -47,17 +44,23 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Registry') {
-            steps {
-                echo 'Pushing Docker image to registry...'
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerCreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
-                    }
-                sh "docker push ${DOCKER_IMAGE_NAME}"
-                }
+         stage('Push to Docker Registry') {
+    steps {
+        echo 'Pushing Docker images to registry...'
+        script {
+            withCredentials([usernamePassword(credentialsId: 'dockerCreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
+
+                // Push frontend Docker image
+                sh "docker push ${DOCKER_REGISTRY_URL}/frontend:latest"
+
+                // Push backend Docker image
+                sh "docker push ${DOCKER_REGISTRY_URL}/backend:latest"
             }
+        }
+    }
 }
+
 
         stage('Cleanup') {
             steps {
