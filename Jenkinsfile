@@ -26,13 +26,15 @@ pipeline {
         } */
 
         stage('Build Docker Image') {
-            script {
+            steps {
+                script {
                     // Build frontend Docker image
                     sh 'docker build -t frontend:latest ./frontend'
 
                     // Build backend Docker image
                     sh 'docker build -t backend:latest ./backend'
                 }
+            }
         }
 
         stage('Integration Tests') {
