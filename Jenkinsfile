@@ -48,7 +48,7 @@ pipeline {
     steps {
         echo 'Pushing Docker images to registry...'
         script {
-            withCredentials([usernamePassword(credentialsId: 'dockerCreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+            withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                 sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
 
                 // Push frontend Docker image
