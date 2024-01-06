@@ -43,22 +43,31 @@ pipeline {
             }
         }
 
-         stage('Push to Docker Registry') {
-    steps {
-        echo 'Pushing Docker images to registry...'
-        script {
-            withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
+        stage('Push to Docker Registry') {
+            steps {
+                echo 'Pushing Docker images to registry...'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
 
-                // Push frontend Docker image
-                sh "docker push viconee/frontend:latest"
+                        // Push frontend Docker image
+                        sh "docker push viconee/frontend:latest"
 
-                // Push backend Docker image
-                sh "docker push viconee/backend:latest"
+                        // Push backend Docker image
+                        sh "docker push viconee/backend:latest"
+                    }
+                }
             }
         }
-    }
-}
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Apply Kubernetes manifests
+                    sh 'kubectl apply -f frontend-deployment.yaml '
+                    sh 'kubectl apply -f backend-deployment.yaml '
+                }
+            }       
+        }
 
 
         stage('Cleanup') {
