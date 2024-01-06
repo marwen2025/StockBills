@@ -52,10 +52,10 @@ pipeline {
                 sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}"
 
                 // Push frontend Docker image
-                sh "docker push ${DOCKER_REGISTRY_URL}/frontend:latest"
+                sh "docker push viconee/frontend:latest"
 
                 // Push backend Docker image
-                sh "docker push ${DOCKER_REGISTRY_URL}/backend:latest"
+                sh "docker push viconee/backend:latest"
             }
         }
     }
