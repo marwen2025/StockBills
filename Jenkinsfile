@@ -4,7 +4,6 @@ pipeline {
     environment {
         // Define environment variables
         NODEJS_VERSION = '17'  // Change to the Node.js version used in your app
-        DOCKER_IMAGE_NAME = 'your-docker-image-name'
         DOCKER_REGISTRY_URL = 'docker.io'
     }
 
@@ -29,10 +28,10 @@ pipeline {
             steps {
                 script {
                     // Build frontend Docker image
-                    sh 'docker build -t frontend:latest ./frontend'
+                    sh 'docker build -t viconee/frontend:latest ./frontend'
 
                     // Build backend Docker image
-                    sh 'docker build -t backend:latest ./backend'
+                    sh 'docker build -t viconee/backend:latest ./backend'
                 }
             }
         }
