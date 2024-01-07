@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: frontend
@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontend-loadbalancer-service
 spec:
   selector:
     app: frontend
@@ -30,3 +30,34 @@ spec:
       port: 80
       targetPort: 3000
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-nodeport-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-pod-service
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: frontend
+    image: viconee/frontend:latest
+    ports:
+    - containerPort: 3000
+      name: demofront-http
