@@ -74,6 +74,7 @@ pipeline {
             steps {
                 echo 'Cleaning up...'
                 // Add cleanup steps
+                sh 'docker logout'
             }
         }
     }
